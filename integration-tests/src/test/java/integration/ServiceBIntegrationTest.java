@@ -1,5 +1,6 @@
 package integration;
 
+import com.microsoft.playwright.APIResponse;
 import org.example.microservice2.*;
 import org.example.microservice2.config.Microservice2IntegrationConfig;
 import org.junit.jupiter.api.BeforeEach;
@@ -16,6 +17,8 @@ import org.springframework.integration.support.MessageBuilder;
 import org.springframework.messaging.MessageChannel;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.TestPropertySource;
+import utils.ApiClient;
+import utils.TestConfig;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -68,7 +71,7 @@ public class ServiceBIntegrationTest {
     }
 
     @Test
-    void whenCallHello_ThenWriteToLog() {
+    void whenCallHelloThenWriteToLog() {
         assertNotNull(fileWriterChannel, "MessageChannel должен быть инжектирован");
         assertInstanceOf(DirectChannel.class, fileWriterChannel, "Неверный тип канала");
 

@@ -14,7 +14,7 @@ public class ServiceBApiTest extends TestRunner {
 
     @Test
     void testHelloEndpoint() {
-        APIResponse response = ApiClient.get("/serviceB/hello");
+        APIResponse response = ApiClient.get(TestConfig.getServiceBEndpoint());
 
         assertEquals(200, response.status(), "Статус код должен быть 200 OK");
         assertEquals(

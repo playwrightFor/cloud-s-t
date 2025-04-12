@@ -11,7 +11,7 @@ import utils.TestConfig;
 
 @Epic("API Gateway Тестирование")
 public class TestRunner {
-    private static final Logger logger = LoggerFactory.getLogger(ApiClient.class);
+    protected static final Logger logger = LoggerFactory.getLogger(ApiClient.class);
     private long startTime;
 
     @BeforeEach
@@ -19,6 +19,7 @@ public class TestRunner {
         ApiClient.setup(TestConfig.getGatewayUrl());
         startTime = System.currentTimeMillis();
 
+        Allure.label("Build Version", TestConfig.getBuildVersion());
         Allure.label("Environment", TestConfig.getEnvironment());
         Allure.link("Gateway Docs", TestConfig.getGatewayDocsUrl());
         Allure.suite("Gateway Tests");

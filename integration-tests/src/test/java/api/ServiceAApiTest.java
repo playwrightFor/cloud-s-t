@@ -6,6 +6,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import tests.TestRunner;
 import utils.ApiClient;
+import utils.TestConfig;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -14,7 +15,7 @@ public class ServiceAApiTest extends TestRunner {
 
     @Test
     void testHelloEndpoint() {
-        APIResponse response = ApiClient.get("/serviceA/hello");
+        APIResponse response = ApiClient.get(TestConfig.getServiceAEndpoint());
 
         assertEquals(200, response.status(), "Статус код должен быть 200");
         assertEquals(

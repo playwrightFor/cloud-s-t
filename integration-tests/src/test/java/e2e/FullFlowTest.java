@@ -4,6 +4,7 @@ import com.microsoft.playwright.APIRequest;
 import com.microsoft.playwright.APIRequestContext;
 import com.microsoft.playwright.APIResponse;
 import com.microsoft.playwright.Playwright;
+import io.qameta.allure.Allure;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Order;
@@ -162,6 +163,12 @@ public class FullFlowTest extends TestRunner {
     @Test
     @Order(4)
     void testLoadHandling() throws InterruptedException {
+        Allure.addAttachment("Нагрузочный тест: Параметры",
+                "text/plain",
+                "Параллельные запросы: " + PARALLEL_REQUESTS + "\n" +
+                        "Таймаут одного запроса: " + TestConfig.getRequestTimeout() + " мс\n" +
+                        "Размер пула потоков: " + THREAD_POOL_SIZE
+        );
         ExecutorService executor = Executors.newFixedThreadPool(THREAD_POOL_SIZE);
         AtomicInteger successCount = new AtomicInteger();
         AtomicInteger failureCount = new AtomicInteger();
@@ -172,6 +179,7 @@ public class FullFlowTest extends TestRunner {
                     APIRequestContext request = playwright.request().newContext(
                             new APIRequest.NewContextOptions()
                                     .setBaseURL(TestConfig.getGatewayUrl())
+                                    .setTimeout(TestConfig.getRequestTimeout())
                     );
 
                     APIResponse response = request.get("/serviceA/hello");

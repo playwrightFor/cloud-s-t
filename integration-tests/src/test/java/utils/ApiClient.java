@@ -18,12 +18,14 @@ public class ApiClient {
         request = playwright.request().newContext(
                 new APIRequest.NewContextOptions()
                         .setBaseURL(baseUrl)
-                        .setTimeout(5000)
+                        .setTimeout(TestConfig.getRequestTimeout())
         );
     }
 
     public static APIResponse get(String endpoint) {
-        logger.info("GET {}", endpoint);
+        if (TestConfig.isDebug()) {
+            logger.debug("Request details: {}", request);
+        }
         return request.get(endpoint);
     }
     public static APIResponse post(String endpoint) {
