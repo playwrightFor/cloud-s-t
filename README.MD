@@ -43,6 +43,22 @@ graph TD
 Архитектура:
 
 ```mermaid
+graph TD
+    Client -->|HTTP| Gateway
+    subgraph Test Environment
+        TestRunner[[Test Runner Service]] -->|1. Запрос| Gateway
+        TestRunner -->|2. Тестовые данные| TestData[(payloads/schemas)]
+        TestRunner -->|3. Логирование| Logs[(requests.log)]
+    end
+    
+    Gateway -->|/serviceA/*| Microservice1(App-1:8083)
+    Gateway -->|/serviceB/*| Microservice2(App-2:8082)
+    
+    Microservice1 --> Microservice2
+    Microservice2 -->|Логирование| Logs
+```
+
+```angular2html
 ┌───────────────────────┐       ┌─────────────────────────────┐
 │       Клиент          │       │                             │
 └──────────┬────────────┘       │  ┌───────────────────────┐  │

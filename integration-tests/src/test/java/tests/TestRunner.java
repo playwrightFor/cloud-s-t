@@ -22,7 +22,5 @@ public class TestRunner {
     @AfterAll
     static void globalTeardown() {
         ApiClient.teardown();
-
-        Allure.addAttachment("Финальный статус", "text/plain", "Все тесты завершены");
     }
 }
