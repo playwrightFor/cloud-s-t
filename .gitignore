@@ -61,3 +61,8 @@ allure-results/
 /trace
 .trace
 /trace/
+
+### Surefire ###
+.reports
+/reports
+/reports/
