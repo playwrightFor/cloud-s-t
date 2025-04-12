@@ -40,7 +40,7 @@ graph TD
     gateway -->|/serviceB/*| Microservice2
     Microservice2 -->|Запись логов| File[(Лог-файл)]
 ```
-Архитектура:
+### Архитектура тестирования представлена на рисунке ниже:
 
 ```mermaid
 graph TD
