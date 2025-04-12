@@ -1,0 +1,5 @@
+# Created at 2025-04-12T01:05:38.723
+Boot Manifest-JAR contains absolute paths in classpath 'D:\Java\kours_stepik\cloud-s\integration-tests\target\test-classes'
+Hint: <argLine>-Djdk.net.URLClassPath.disableClassPathURLCheck=true</argLine>
+'other' has different root
+
