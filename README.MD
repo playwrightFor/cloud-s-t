@@ -172,8 +172,8 @@ integration-tests/
             │   │   └── serviceA-request.json
             │   └── schemas/          # JSON-схемы для валидации
             │       └── serviceB-response-schema.json
-            └── logs/                 # Логи запросов 
-            │    └── logback-test.xml
+            │                # Логи запросов 
+            └── logback-test.xml
             └── allure-config.yml
 ```
 ## 🧪 Тестирование

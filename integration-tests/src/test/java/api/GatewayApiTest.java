@@ -9,7 +9,6 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import tests.TestRunner;
 import utils.ApiClient;
-import utils.TestConfig;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -76,45 +75,4 @@ public class GatewayApiTest extends TestRunner {
             assertEquals(response1.text(), response2.text());
         });
     }
-
-//        @Test
-//    void testEnvironmentConfiguration() {
-//        assertAll(
-//                () -> assertFalse(TestConfig.getEnvironment().isEmpty()),
-//                () -> assertTrue(TestConfig.getGatewayUrl().startsWith("http"))
-//        );
-//    }
-
-
-//    @Test
-//    @DisplayName("Проверка конфигурации окружения") // Человеко-читаемое название
-//    @Severity(SeverityLevel.BLOCKER) // Уровень критичности
-//    @Tag("ConfigCheck") // Группировка тестов
-//    @Tag("Smoke")       // Дополнительная категоризация тестов (при необходимости)
-//    void testEnvironmentConfiguration() {
-//        Allure.description("Тест проверяет корректность базовых настроек окружения");
-//
-//        Allure.step("Проверка настроек окружения", () -> {
-//            String environment = TestConfig.getEnvironment();
-//
-//            assertAll(
-//                    () -> assertFalse(environment.isEmpty(),
-//                            "Окружение не должно быть пустым. Актуальное значение: " + environment),
-//                    () -> assertTrue(environment.matches("local|staging|prod"),
-//                            "Недопустимое окружение: " + environment)
-//            );
-//        });
-//
-//        Allure.step("Проверка URL шлюза", () -> {
-//            String gatewayUrl = TestConfig.getGatewayUrl();
-//
-//            assertAll(
-//                    () -> assertNotNull(gatewayUrl, "URL шлюза должен быть задан"),
-//                    () -> assertTrue(gatewayUrl.startsWith("http"),
-//                            "URL должен содержать протокол. Актуальный URL: " + gatewayUrl),
-//                    () -> assertTrue(gatewayUrl.matches("^http(s)?://.*:[0-9]{4}"),
-//                            "Некорректный формат URL: " + gatewayUrl)
-//            );
-//        });
-//    }
 }

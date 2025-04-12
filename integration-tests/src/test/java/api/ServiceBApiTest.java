@@ -4,17 +4,13 @@ import com.microsoft.playwright.APIResponse;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import tests.TestRunner;
 import utils.ApiClient;
 import utils.TestConfig;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class ServiceBApiTest {
-
-    @BeforeAll
-    static void setUp() {
-        ApiClient.setup(TestConfig.getGatewayUrl());
-    }
+public class ServiceBApiTest extends TestRunner {
 
     @Test
     void testHelloEndpoint() {
@@ -26,10 +22,5 @@ public class ServiceBApiTest {
                 response.text(),
                 "Тело ответа должно соответствовать ожидаемому"
         );
-    }
-
-    @AfterAll
-    static void tearDown() {
-        ApiClient.teardown();
     }
 }

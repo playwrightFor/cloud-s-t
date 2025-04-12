@@ -108,6 +108,7 @@ import com.microsoft.playwright.APIResponse;
 import org.junit.jupiter.api.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import tests.TestRunner;
 import utils.ApiClient;
 import utils.TestConfig;
 
@@ -120,15 +121,11 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-public class FullFlowTest {
+public class FullFlowTest extends TestRunner {
     private static final Logger logger = LoggerFactory.getLogger(FullFlowTest.class);
     private static final int PARALLEL_REQUESTS = 100;
     private static final int THREAD_POOL_SIZE = 20;
 
-    @BeforeAll
-    static void setUp() {
-        ApiClient.setup(TestConfig.getGatewayUrl());
-    }
 
     @Test
     @Order(1)
@@ -203,10 +200,5 @@ public class FullFlowTest {
                 () -> assertTrue(failureCount.get() <= PARALLEL_REQUESTS * 0.05,
                         "Неудачных запросов должно быть не более 5%")
         );
-    }
-
-    @AfterAll
-    static void tearDown() {
-        ApiClient.teardown();
     }
 }

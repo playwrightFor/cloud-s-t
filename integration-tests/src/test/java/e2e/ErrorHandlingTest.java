@@ -6,18 +6,15 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import tests.TestRunner;
 import utils.ApiClient;
 import utils.TestConfig;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class ErrorHandlingTest {
+public class ErrorHandlingTest extends TestRunner {
     private static final Logger logger = LoggerFactory.getLogger(ErrorHandlingTest.class);
 
-    @BeforeAll
-    static void setUp() {
-        ApiClient.setup(TestConfig.getGatewayUrl());
-    }
 
     @ParameterizedTest
     @CsvSource({
@@ -47,10 +44,5 @@ public class ErrorHandlingTest {
         );
 
         assertEquals(400, response.status());
-    }
-
-    @AfterAll
-    static void tearDown() {
-        ApiClient.teardown();
     }
 }

@@ -6,12 +6,13 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
+import tests.TestRunner;
 import utils.ApiClient;
 import utils.TestConfig;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class GatewayIntegrationTest {
+public class GatewayIntegrationTest extends TestRunner {
 
     @BeforeAll
     static void setUp() {
@@ -42,10 +43,5 @@ public class GatewayIntegrationTest {
 
         assertEquals(404, response.status(),
                 "Несуществующий эндпоинт должен возвращать 404. Актуальный статус: " + response.status());
-    }
-
-    @AfterAll
-    static void tearDown() {
-        ApiClient.teardown();
     }
 }

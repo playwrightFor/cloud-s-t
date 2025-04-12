@@ -1,22 +1,16 @@
 package api;
 
 import com.microsoft.playwright.APIResponse;
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
+import tests.TestRunner;
 import utils.ApiClient;
-import utils.TestConfig;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class ServiceAApiTest {
+public class ServiceAApiTest extends TestRunner {
 
-    @BeforeAll
-    static void setUp() {
-        ApiClient.setup(TestConfig.getGatewayUrl());
-    }
 
     @Test
     void testHelloEndpoint() {
@@ -56,10 +50,5 @@ public class ServiceAApiTest {
                         "Заголовок Date должен присутствовать"
                 )
         );
-    }
-
-    @AfterAll
-    static void tearDown() {
-        ApiClient.teardown();
     }
 }

@@ -11,8 +11,16 @@ public class TestConfig {
                 .getResourceAsStream("config/test.properties")) {
             props.load(input);
         } catch (Exception e) {
-            throw new RuntimeException("Failed to load test config", e);
+            throw new RuntimeException("Не удалось загрузить конфигурацию теста", e);
         }
+    }
+
+    public static String getGatewayDocsUrl() {
+        return switch(getEnvironment()) {
+            case "local" -> "http://localhost:8084/docs";
+            case "staging" -> "https://staging-api/docs";
+            default -> "https://prod-api/docs";
+        };
     }
 
     public static String getGatewayUrl() {
@@ -29,5 +37,19 @@ public class TestConfig {
 
     public static String getServiceAEndpoint() {
         return props.getProperty("servicea.endpoint");
+    }
+
+    public static int getRequestTimeout() {
+        String timeout = props.getProperty("request.timeout");
+        return timeout != null ? Integer.parseInt(timeout) : 7000;
+    }
+
+    public static String getBuildVersion() {
+        return props.getProperty("build.version");
+    }
+
+    public static boolean isDebug() {
+        String debug = props.getProperty("debug");
+        return Boolean.parseBoolean(debug);
     }
 }
