@@ -29,10 +29,11 @@ public class TestRunner {
     void teardownPerTest() {
         ApiClient.teardown();
         long durationMillis = System.currentTimeMillis() - startTime;
-        String message = "Выполнено за: " + durationMillis + "s";
+        double durationSeconds = durationMillis / 1000.0;
 
+        String message = String.format("Выполнено за: %.2fs", durationSeconds);
         Allure.addAttachment("Test Duration", "text/plain",
-                "Выполнено за: " + durationMillis + "s");
+                message);
         logger.info(message);
     }
 }

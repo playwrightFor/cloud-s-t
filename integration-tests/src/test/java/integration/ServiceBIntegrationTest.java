@@ -27,73 +27,9 @@ import java.nio.file.Paths;
 import java.time.Duration;
 import java.util.Comparator;
 
-import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.awaitility.Awaitility.await;
 import static org.junit.jupiter.api.Assertions.*;
 
-//@SpringBootTest(
-//        classes = {
-//                Microservice2Application.class,
-//                Microservice2IntegrationConfig.class
-//        },
-//        webEnvironment = SpringBootTest.WebEnvironment.NONE
-//)
-//@EnableAutoConfiguration(exclude = {
-//        GatewayAutoConfiguration.class,
-//        GatewayMetricsAutoConfiguration.class
-//})
-//@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
-//@TestPropertySource(locations = "classpath:config/test.properties")
-//public class ServiceBIntegrationTest {
-//
-//    @Autowired
-//    @Qualifier("microservice2FileWriterChannel")
-//    private MessageChannel fileWriterChannel;
-//
-//    @Value("${user.requests.filepath}")
-//    private String logFilePath;
-//
-//    @BeforeEach
-//    void setup() throws IOException {
-//        Path logDir = Paths.get(logFilePath);
-//
-//        if (Files.exists(logDir)) {
-//            Files.walk(logDir)
-//                    .sorted(Comparator.reverseOrder())
-//                    .forEach(path -> {
-//                        try {
-//                            Files.deleteIfExists(path);
-//                        } catch (IOException ignored) {
-//                        }
-//                    });
-//        }
-//
-//        Files.createDirectories(logDir);
-//    }
-//
-//    @Test
-//    void whenCallHelloThenWriteToLog() {
-//        assertNotNull(fileWriterChannel, "MessageChannel должен быть инжектирован");
-//        assertInstanceOf(DirectChannel.class, fileWriterChannel, "Неверный тип канала");
-//
-//        boolean sent = fileWriterChannel.send(MessageBuilder
-//                .withPayload("test_message")
-//                .build());
-//
-//        assertTrue(sent, "Сообщение не было отправлено");
-//
-//        Path logFile = Paths.get(logFilePath).resolve("requests.log");
-//
-//        await().atMost(10, SECONDS)
-//                .pollInterval(1, SECONDS)
-//                .untilAsserted(() -> {
-//                    assertTrue(Files.exists(logFile), "Файл лога не создан");
-//                    String content = Files.readString(logFile);
-//                    assertTrue(content.contains("test_message"),
-//                            "Содержимое лога: " + content);
-//                });
-//    }
-//}
 
 @Epic("ServiceB Тестирование")
 @Feature("Интеграция с файловой системой")
@@ -142,7 +78,6 @@ public class ServiceBIntegrationTest {
         awaitLogFileCreation();
     }
 
-    // region Вспомогательные методы
     private void cleanDirectory(Path directory) throws IOException {
         if (Files.exists(directory)) {
             Files.walk(directory)
@@ -155,7 +90,6 @@ public class ServiceBIntegrationTest {
         try {
             Files.deleteIfExists(path);
         } catch (IOException ignored) {
-            // Логирование при необходимости
         }
     }
 

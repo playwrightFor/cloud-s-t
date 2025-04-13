@@ -2,52 +2,23 @@ package integration;
 
 import com.microsoft.playwright.APIResponse;
 import io.qameta.allure.*;
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Tag;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
-import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.MethodSource;
 import tests.TestRunner;
 import utils.ApiClient;
+import utils.LoadTestUtils;
 import utils.TestConfig;
+import utils.assertions.ApiAssertions;
 
 import java.util.stream.Stream;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertAll;
 
-//public class GatewayIntegrationTest extends TestRunner {
-//
-//    @BeforeAll
-//    static void setUp() {
-//        ApiClient.setup(TestConfig.getGatewayUrl());
-//    }
-//
-//    @ParameterizedTest
-//    @CsvSource({
-//            "/serviceA/hello, Приветствую! Вы в приложении: App-1",
-//            "/serviceB/hello, Приветствую! Вы в приложении: App-2"
-//    })
-//    void testRouteToCorrectService(String endpoint, String expectedResponse) {
-//        APIResponse response = ApiClient.get(endpoint);
-//
-//        assertAll(
-//                () -> assertEquals(200, response.status(),
-//                        "Неверный статус код для эндпоинта " + endpoint),
-//                () -> assertEquals(expectedResponse, response.text(),
-//                        "Несоответствие тела ответа для эндпоинта " + endpoint),
-//                () -> assertTrue(response.url().contains(endpoint),
-//                        "URL ответа должен содержать путь " + endpoint)
-//        );
-//    }
-//
-//    @Test
-//    void testInvalidRouteReturns404() {
-//        APIResponse response = ApiClient.get("/invalid-endpoint");
-//
-//        assertEquals(404, response.status(),
-//                "Несуществующий эндпоинт должен возвращать 404. Актуальный статус: " + response.status());
-//    }
-//}
 
 @Epic("Интеграционное тестирование Gateway")
 @Feature("Маршрутизация запросов")
@@ -68,13 +39,13 @@ public class GatewayIntegrationTest extends TestRunner {
     @DisplayName("Проверка корректной маршрутизации запросов")
     @Severity(SeverityLevel.BLOCKER)
     @Tag("Integration")
-    void shouldRouteToCorrectService_whenValidEndpointProvided(String endpoint, String expectedResponse) {
-        APIResponse response = executeApiCall(endpoint);
+    void shouldRouteToCorrectServiceWhenValidEndpointProvided(String endpoint, String expectedResponse) {
+        APIResponse response = LoadTestUtils.executeApiCall(endpoint);
 
         assertAll("Проверка ответа для эндпоинта: " + endpoint,
-                () -> assertStatusCode(response, 200),
-                () -> assertResponseTextEquals(response, expectedResponse),
-                () -> assertUrlContainsPath(response, endpoint)
+                () -> ApiAssertions.assertStatusCode(response, 200),
+                () -> ApiAssertions.assertResponseTextEquals(response, expectedResponse),
+                () -> ApiAssertions.assertUrlContainsPath(response, endpoint)
         );
     }
 
@@ -82,54 +53,19 @@ public class GatewayIntegrationTest extends TestRunner {
     @DisplayName("Проверка обработки несуществующего маршрута")
     @Severity(SeverityLevel.CRITICAL)
     @Tag("ErrorHandling")
-    void shouldReturn404_whenInvalidRouteRequested() {
-        APIResponse response = executeApiCall(INVALID_ENDPOINT);
+    void shouldReturn404WhenInvalidRouteRequested() {
+        APIResponse response = LoadTestUtils.executeApiCall(INVALID_ENDPOINT);
 
         assertAll("Проверка ответа для несуществующего пути",
-                () -> assertStatusCode(response, 404),
-                () -> assertResponseContains(response, "Not Found")
+                () -> ApiAssertions.assertStatusCode(response, 404),
+                () -> ApiAssertions.assertResponseContains(response, "Not Found")
         );
     }
 
-    //$ ===>>> region Вспомогательные методы
     private static Stream<Arguments> provideServiceEndpoints() {
         return Stream.of(
                 Arguments.of(SERVICE_A_HELLO, "Приветствую! Вы в приложении: App-1"),
                 Arguments.of(SERVICE_B_HELLO, "Приветствую! Вы в приложении: App-2")
         );
-    }
-
-    private APIResponse executeApiCall(String endpoint) {
-        return Allure.step("Выполнение запроса к " + endpoint, () -> {
-            Allure.addAttachment("Request", "text/plain", "GET " + endpoint);
-            APIResponse response = ApiClient.get(endpoint);
-            logResponseDetails(response);
-            return response;
-        });
-    }
-
-    private void logResponseDetails(APIResponse response) {
-        Allure.addAttachment("Response", "application/json", response.text());
-        logger.debug("Response details - Status: {}, Body: {}", response.status(), response.text());
-    }
-    // endregion
-
-    //$ ===>>> region Утилитарные assertions
-    private void assertStatusCode(APIResponse response, int expected) {
-        assertEquals(expected, response.status(), "Неверный статус код");
-    }
-
-    private void assertResponseTextEquals(APIResponse response, String expected) {
-        assertEquals(expected, response.text(), "Текст ответа не соответствует ожидаемому");
-    }
-
-    private void assertUrlContainsPath(APIResponse response, String path) {
-        assertTrue(response.url().contains(path),
-                "URL ответа должен содержать путь: " + path);
-    }
-
-    private void assertResponseContains(APIResponse response, String expectedText) {
-        assertTrue(response.text().contains(expectedText),
-                "Ответ должен содержать текст: " + expectedText);
     }
 }
