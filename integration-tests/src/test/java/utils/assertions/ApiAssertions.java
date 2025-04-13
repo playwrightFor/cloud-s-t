@@ -8,7 +8,6 @@ import static org.junit.jupiter.api.Assertions.*;
 @Epic("API Response Assertions")
 public class ApiAssertions {
 
-
     public static void assertContentType(APIResponse response, String expectedType) {
         assertEquals(expectedType, response.headers().get("content-type"),
                 "Content-Type должен быть " + expectedType);
