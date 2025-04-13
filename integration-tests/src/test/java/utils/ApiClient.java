@@ -4,9 +4,12 @@ import com.microsoft.playwright.APIRequest;
 import com.microsoft.playwright.APIRequestContext;
 import com.microsoft.playwright.APIResponse;
 import com.microsoft.playwright.Playwright;
+import io.qameta.allure.Epic;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+
+@Epic("API Client for Automated Testing")
 public class ApiClient {
     private static final Logger logger = LoggerFactory.getLogger(ApiClient.class);
     private static APIRequestContext request;

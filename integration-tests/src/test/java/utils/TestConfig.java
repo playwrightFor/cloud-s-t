@@ -1,8 +1,11 @@
 package utils;
 
+import io.qameta.allure.Epic;
+
 import java.io.InputStream;
 import java.util.Properties;
 
+@Epic("Test Configuration Management")
 public class TestConfig {
     private static final Properties props = new Properties();
 

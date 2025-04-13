@@ -111,7 +111,7 @@ public class GatewayApiTest extends TestRunner {
 
         assertAll("Проверка ответа для несуществующего пути",
                 () -> assertStatusCode(response, 404),
-                () -> assertResponseContains(response, "Not Found")
+                () -> assertResponseContains(response)
         );
     }
 
@@ -134,7 +134,7 @@ public class GatewayApiTest extends TestRunner {
         });
     }
 
-    //$ region Вспомогательные методы
+    //$ region ===>>> Вспомогательные методы
     private static Stream<Arguments> provideValidEndpoints() {
         return Stream.of(
                 Arguments.of(SERVICE_A_HELLO, "Приветствую! Вы в приложении: App-1"),
@@ -191,7 +191,7 @@ public class GatewayApiTest extends TestRunner {
         logger.warn("Проверка балансировки невозможна - отсутствует X-Server-ID");
     }
 
-    //$ region Утилитарные assertions
+    //$ region ===>>> Утилитарные assertions
     private void assertStatusCode(APIResponse response, int expected) {
         assertEquals(expected, response.status(), "Неверный статус код");
     }
@@ -204,8 +204,8 @@ public class GatewayApiTest extends TestRunner {
         assertTrue(response.url().contains(path), "URL ответа содержит неверный путь");
     }
 
-    private void assertResponseContains(APIResponse response, String expectedText) {
-        assertTrue(response.text().contains(expectedText),
-                "Ответ должен содержать текст: " + expectedText);
+    private void assertResponseContains(APIResponse response) {
+        assertTrue(response.text().contains("Not Found"),
+                "Ответ должен содержать текст: " + "Not Found");
     }
 }
